@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>player</title>
+    <script src="jquery.js"></script>
+    <script src="player.js"></script>
+    <link rel="stylesheet" type="text/css" href="loader.css">
+    <link rel="stylesheet" href="side-menu.css">
+</head>
+
+<body>
+    <form class="modal-content animate" action="/action_page.php">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+
+        <div class="container">
+            <label for="uname"><b>Old PIN</b></label>
+            <input id="modalOldPin" type="text" placeholder="Enter Pin" name="uname" required>
+
+            <label for="psw"><b>New PIN</b></label>
+            <input id="modalNewPin" type="password" placeholder="Enter Pin" name="psw" required>
+
+            <button id="modalButton" type="button">change pin</button>
+            <span id="modalMsg" class="pure-form-message-inline" style="color:green"></span>
+        </div>
+    </form>
+    <span class="loader"><span class="loader-inner"></span></span>
+    <div class="videoContainer">
+        <video id="videoarea" onended="next(this)" controls="controls" src="" frameborder="0" allowfullscreen autoplay muted></video>
+    </div>
+    <script src="pin.js"></script>
+</body>
+
+</html>

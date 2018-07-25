@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
+    <title>Insteo config</title>
+    <link rel="stylesheet" href="pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    <link rel="stylesheet" href="side-menu.css">
+</head>
+
+<body>
+    <div id="layout">
+        <!-- Menu toggle -->
+        <a href="#menu" id="menuLink" class="menu-link">
+            <!-- Hamburger icon -->
+            <span></span>
+        </a>
+
+        <div id="menu">
+            <div class="pure-menu">
+                <a class="pure-menu-heading" href="">Insteo</a>
+
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
+
+                    <li class="pure-menu-item menu-item-divided pure-menu-selected">
+                        <a href="#" class="pure-menu-link">Services</a>
+                    </li>
+
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="main">
+            <div class="header">
+                <h1>Insteo kiosk</h1>
+                <h2>A subtitle for your page goes here</h2>
+            </div>
+
+            <div class="content">
+                <form class="pure-form pure-form-aligned" id="pinVerificationForm">
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <label for="password">PIN</label>
+                            <input id="oldPin" type="password" placeholder="55551">
+                            <span class="pure-form-message-inline">*enter pin default "55551"</span>
+                        </div>
+
+                        <div class="pure-controls">
+                            <button type="button" id="submitPin" class="pure-button pure-button-primary">Submit</button>
+                            <span id="pinError" class="pure-form-message-inline" style="color:red">*please enter correct pin</span>
+                            <span id="pinWarning" class="pure-form-message-inline" style="color:red"></span>
+                        </div>
+                    </fieldset>
+                </form>
+                <form class="pure-form pure-form-aligned" id="configForm">
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <label for="name">URL Code</label>
+                            <input id="newUrl" type="text" placeholder="url">
+                            <span class="pure-form-message-inline">*This is a required field. ex("abcdef")</span>
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="password">New PIN</label>
+                            <input id="newPin" type="password" placeholder="PIN">
+                            <span class="pure-form-message-inline">can be left blank if you don't want to change the pin.</span>
+                        </div>
+
+                        <div class="pure-controls">
+                            <button id="submitUrl" type="button" class="pure-button pure-button-primary">Submit</button>
+                            <span id="submitUrlMsg" class="pure-form-message-inline" style="color:green"></span>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src='jquery.js'></script>
+    <script src="pin.js"></script>
+
+</body>
+
+</html>
