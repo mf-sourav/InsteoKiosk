@@ -2,9 +2,7 @@
  * File=>server.js
  * functions
  * =>runs the application on the host machine
- * =>provides api
- * =>includes npm dependencies
- * =>controls file system
+ * =>Includes all the imports of the dependencies 
  */
 //all require for npm dependencies
 var express = require('express');
