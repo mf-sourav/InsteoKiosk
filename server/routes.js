@@ -10,9 +10,11 @@
  * @param {*variable that holds all links for downloading} urlArray 
  * @param {*function to parse filename from url} getFileName 
  */
-var mediaListPath = '/data/media_list.txt';
-var configDetailsPath = "/data/config_details.txt";
 module.exports = function (app, path, fs, download, urlArray, getFileName) {
+
+    //path variables
+    const mediaListPath = "/data/media_list.txt";
+    const configDetailsPath = "/data/config_details.txt";
     /**
      * @Route
      * @name /index
