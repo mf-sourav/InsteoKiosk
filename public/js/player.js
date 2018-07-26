@@ -11,7 +11,7 @@ var waiter = setInterval(function () {
         clearInterval(waiter);
     }
 }, 6000);
-
+//loops through out the video play list
 function next(e) {
     i += 1;
     if (i == videoList.length - 1) {

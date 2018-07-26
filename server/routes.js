@@ -10,6 +10,8 @@
  * @param {*variable that holds all links for downloading} urlArray 
  * @param {*function to parse filename from url} getFileName 
  */
+var mediaListPath = '/data/media_list.txt';
+var configDetailsPath = "/data/config_details.txt";
 module.exports = function (app, path, fs, download, urlArray, getFileName) {
     /**
      * @Route
@@ -53,15 +55,17 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         //cycles through url list
         var urlArrayLength = urlArray.length;
         for (let i = 0; i < urlArrayLength; i++) {
-            //parses name of the file from url
-            let mediaName = getFileName(urlArray[i]);
             //checks if media file is present
-            if (fs.existsSync(__dirname + '/media/' + mediaName)) {} else {
-                //if not present download the content synchronously
-                download(urlArray[i], 'media').then(() => {
-                    //after downloading write files to media_list file
-                    fs.appendFileSync(__dirname + '/data/' + 'media_list.txt', mediaName + "\r\n");
-                });
+            try {
+                if (!fs.existsSync(__dirname + '/media/' + getFileName(urlArray[i]))) {
+                    //if not present download the content synchronously
+                    download(urlArray[i], 'media').then(() => {
+                        //after downloading write files to media_list file
+                        fs.appendFileSync(__dirname + mediaListPath, getFileName(urlArray[i]) + "\r\n");
+                    });
+                }
+            } catch (error) {
+                res.end(error);
             }
         }
         res.sendFile('player.html', {
@@ -69,7 +73,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         });
     });
 
-   /**
+    /**
      * @Route/api call
      * @name /type
      * @method GET
@@ -83,7 +87,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         });
     });
 
-   /**
+    /**
      * @Route/api call
      * @name /getCode
      * @method GET
@@ -92,13 +96,16 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the 6 characters unique url code from config_details.txt
      */
     app.get('/getCode', function (req, res) {
-        fs.readFile(__dirname + "/data/config_details.txt", 'utf8', function (err, data) {
+        fs.readFile(__dirname + configDetailsPath, 'utf8', function (err, data) {
+            if (err) {
+                res.end(err);
+            }
             var code = (data.split('URL=')[1]).split('PIN=')[0].trim();
             res.end(code);
         });
     });
 
-   /**
+    /**
      * @Route/api call
      * @name /getMedia
      * @method GET
@@ -107,11 +114,15 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the name of media files that are present locally in the system
      */
     app.get('/getMedia', function (req, res) {
-        var data = fs.readFileSync(__dirname + '/data/' + 'media_list.txt', 'utf8');
-        //send array of media files name
-        res.send(data.split(/\n/));
+        try {
+            var data = fs.readFileSync(__dirname + mediaListPath, 'utf8');
+            //send array of media files name
+            res.send(data.split(/\n/));
+        } catch (error) {
+            res.end(error);
+        }
     });
-   /**
+    /**
      * @Route/api call
      * @name /getPin
      * @method GET
@@ -120,10 +131,14 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the 5 digit pincode from config_details.txt
      */
     app.get('/getPin', function (req, res) {
-        var pin = fs.readFileSync(__dirname + '/data/config_details.txt', 'utf8').split('PIN=')[1].trim();
-        res.end(pin);
+        try {
+            var pin = fs.readFileSync(__dirname + configDetailsPath, 'utf8').split('PIN=')[1].trim();
+            res.end(pin);
+        } catch (error) {
+            res.end(error);
+        }
     });
-   /**
+    /**
      * @Route/api call
      * @name /config
      * @method POST
@@ -133,11 +148,11 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      */
     app.post('/setPinPassword', function (req, res) {
         var conf = 'URL=' + req.body.url + "\nPIN=" + req.body.pin;
-        fs.writeFile(__dirname + '/data/config_details.txt', conf, 'utf8', function (err) {
+        fs.writeFile(__dirname + configDetailsPath, conf, 'utf8', function (err) {
             if (err) {
-                res.send("error");
+                res.end("error");
             };
         });
-        res.send("success");
+        res.end("success");
     });
 }

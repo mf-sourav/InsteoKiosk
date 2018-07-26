@@ -38,14 +38,17 @@ require('./routes.js')(app, path, fs, download, urlArray, getFileName);
 setInterval(function () {
     var htmlUrl = 'http://screen.insteo.com/fpojdf';
     var xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
-    var textUrl = 'http://172.16.9.175/others/kiosk/Insteo_MRSS.xml';
     request(htmlUrl, function (error, response, body) {
-        if (body != undefined) {
+        try {
+            let responsetype;
             if (body.indexOf('<?xml version=') !== -1) {
-                var type = fs.writeFileSync('type.txt', 'XML', 'utf8');
+                responsetype = fs.writeFileSync('type.txt', 'XML', 'utf8');
             } else {
-                var type = fs.writeFileSync('type.txt', 'HTML', 'utf8');
+                responsetype = fs.writeFileSync('type.txt', 'HTML', 'utf8');
             }
+
+        } catch (exception) {
+            console.log("offline");
         }
     });
 }, 5000);

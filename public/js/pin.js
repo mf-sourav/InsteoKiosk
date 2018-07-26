@@ -1,7 +1,7 @@
 /**
  * file-pin.js
  * function
- * =>changes pin & 6 character unique code
+ * =>changes pin & 6 character unique url code
  * =>blocks user from entering code again after nth wrong attempts
  * =>controls the ctrl+A popup modal for changing the pin
  */
@@ -60,61 +60,56 @@ $(document).ready(function () {
 			localStorage.setItem('restrictTimer', 0);
 		}
 	}, 1000);
-	//method i called whenever pin is submited
+	//method is called whenever pin is submited
 	$('#submitPin').click(function () {
 		if (pinAllowed) {
+			//entered correct pin
 			if ($('#oldPin').val() == pin) {
-				console.log("correct");
+				//hides pin entry form & shows configuration form
 				$('#configForm').show();
 				$('#pinVerificationForm').hide();
 			} else {
+				//entered wrong pin increase wrong attempts count
+				//reset fields & show warning
 				resetFields();
 				$('#pinError').show();
 				$('#pinError').html("Please enter correct pin");
 				wrongAttempts++;
-				console.log(wrongAttempts);
 			}
 			if (wrongAttempts == 4) {
-				pinAllowed = false;
-				$('#submitPin').prop('disabled', true);
-				$('#oldPin').prop('disabled', true);
-				$('#pinWarning').html("you can try again after 30 sec");
-				$('#pinError').hide();
-				localStorage.setItem('restrictTimer', 5);
-				localStorage.setItem('pinAllowed', false);
-				restrictTimer = 5;
+				//entered wrong pin 5 times disabled the form fields for 5 secs
+				disableFormInputs("you can try again after 30 secs",5);
 			}
 			if (wrongAttempts == 9) {
-				pinAllowed = false;
-				$('#submitPin').prop('disabled', true);
-				$('#oldPin').prop('disabled', true);
-				$('#pinWarning').html("you can try again after 1hr");
-				$('#pinError').hide();
-				localStorage.setItem('restrictTimer', 20);
-				localStorage.setItem('pinAllowed', false);
-				restrictTimer = 20;
+				//entered wrong pin 10 times disabled the form fields for 30 secs
+				disableFormInputs("you can try again after 1hr",30);
 			}
 		}
 	});
+	//method is called when user submits configuration form
 	$('#submitUrl').click(function () {
 		if ($('#newPin').val() == "") {
 			$('#newPin').val(pin);
 		}
+		//ajax post request to send 6 character url code & pin
 		$.post("/setPinPassword", {
 			url: $('#newUrl').val(),
 			pin: $('#newPin').val()
 		}, function (result) {
+			//if configuration successfully written
 			if (result == "success") {
 				$('#submitUrlMsg').html("configuration updated successfully redirecting to index");
+				//redirects to inde.html after 3 secs
 				setTimeout(function () {
 					window.location = "http://127.0.0.1:3000/index";
 				}, 3000);
 			} else {
+				//if fails show error
 				$('#submitUrlMsg').html("configuration update failed");
 			}
 		});
-		console.log($('#newUrl').val(), $('#newPin').val());
 	});
+	//checks if ctrl + A is pressed if so then it shows the modal
 	$(document).keydown(function (event) {
 		if (event.ctrlKey == true && event.keyCode == 65) {
 			event.preventDefault();
@@ -122,10 +117,13 @@ $(document).ready(function () {
 			document.getElementById('id01').style.width = '100%';
 		}
 	});
+	//function executes when modal submit button is clicked
 	$('#modalButton').click(function () {
 		if ($('#modalOldPin').val() == pin && $('#modalNewPin').val() != "") {
+			//ajax call to get present 6 char url code
 			$.get("http://127.0.0.1:3000/getCode", function (data, status) {
 				let oldUrl = data;
+				//ajax call to set pin & url of the user
 				$.post("/setPinPassword", {
 					url: oldUrl,
 					pin: $('#modalNewPin').val()
@@ -140,16 +138,28 @@ $(document).ready(function () {
 				});
 			});
 		} else {
-			$('#modalMsg').html("Error while changing pin").css("color", "red");
+			$('#modalMsg').html("please enter correct pin").css("color", "red");
 			resetFields();
 		}
 	});
-
+	//after clicking submit clears the input fields
 	function resetFields() {
 		$('#oldPin').val('');
 		$('#modalOldPin').val('');
 		$('#modalNewPin').val('');
 	}
+	//after n no of attempts disables input fields for specified time
+	function disableFormInputs(msg, time) {
+		pinAllowed = false;
+		$('#submitPin').prop('disabled', true);
+		$('#oldPin').prop('disabled', true);
+		$('#pinWarning').html(msg);
+		$('#pinError').hide();
+		localStorage.setItem('restrictTimer', time);
+		localStorage.setItem('pinAllowed', false);
+		restrictTimer = time;
+	}
+	//when clicked on any region outside modal it closes the modal 
 	window.onclick = function (event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
