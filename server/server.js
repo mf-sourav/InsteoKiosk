@@ -15,6 +15,8 @@ const bodyParser = require('body-parser');
 const parseString = require('xml2js').parseString;
 const request = require('request');
 const download = require('download');
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 //To enable the body parser depenedecy to get form data
 app.use(bodyParser.urlencoded({
@@ -48,11 +50,11 @@ setInterval(function () {
     let xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
     request(htmlUrl, function (error, response, body) {
         try {
-            let responsetype;
+
             if (body.indexOf('<?xml version=') !== -1) {
-                responsetype = fs.writeFileSync('type.txt', 'XML', 'utf8');
+                let responsetype = fs.writeFileSync('type.txt', 'XML', 'utf8');
             } else {
-                responsetype = fs.writeFileSync('type.txt', 'HTML', 'utf8');
+                let responsetype = fs.writeFileSync('type.txt', 'HTML', 'utf8');
             }
 
         } catch (exception) {
@@ -61,7 +63,23 @@ setInterval(function () {
     });
 }, 5000);
 
-//appends listner at specified port
-app.listen(PORT, () => {
-    console.log(`Server started on port:${PORT}`);
-});
+/**
+ * function=>
+ * creates node js cluster for multi threading
+ * creates n workers depending on number of cpu's
+ * forks child processes for handling http request
+ */
+//checks if it is a master process
+if (cluster.isMaster) {
+    // Fork workers.
+    // creates number of workers depending on cpu count
+    for (var i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+} else {
+    // if cluster is worker then it will listern to port
+    //appends listner at specified port
+    app.listen(PORT, () => {
+        console.log(`Server started on port:${PORT}`);
+    });
+}
