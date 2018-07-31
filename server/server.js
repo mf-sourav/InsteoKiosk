@@ -15,8 +15,8 @@ const bodyParser = require('body-parser');
 const parseString = require('xml2js').parseString;
 const request = require('request');
 const download = require('download');
-var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
 
 //To enable the body parser depenedecy to get form data
 app.use(bodyParser.urlencoded({

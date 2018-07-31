@@ -1,5 +1,5 @@
 /**
- * file-pin.js
+ * file-config.js
  * function
  * =>changes pin & 6 character unique url code
  * =>blocks user from entering code again after nth wrong attempts
