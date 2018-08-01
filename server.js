@@ -48,7 +48,7 @@ require('./server/routes.js')(app, path, fs, download, urlArray, getFileName);
 setInterval(function () {
     let htmlUrl = 'http://screen.insteo.com/fpojdf';
     let xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
-    request(xmlUrl, function (error, response, body) {
+    request(htmlUrl, function (error, response, body) {
         try {
             if (body.indexOf('<?xml version=') !== -1) {
                 let responsetype = fs.writeFileSync(urlResponseTypePath, 'XML', 'utf8');
