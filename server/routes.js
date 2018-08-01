@@ -85,7 +85,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the type of response that app is getting from the url(HTML/XML)
      */
     app.get('/type', function (req, res) {
-        fs.readFile(__dirname + "/type.txt", 'utf8', function (err, data) {
+        fs.readFile(__dirname + "/data/type.txt", 'utf8', function (err, data) {
             res.end(data);
         });
     });
