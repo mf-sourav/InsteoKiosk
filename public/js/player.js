@@ -11,7 +11,6 @@ var videoList = new Array("");
 var videoListCheckInterval = 5000;
 var checkContentTypeInterval = 5000;
 //checks every 6 seconds whether video list has any videos to play
-clearInterval(waiter);
 var waiter = setInterval(function () {
     if (videoList.length > 1) {
         $("#videoarea").attr({
