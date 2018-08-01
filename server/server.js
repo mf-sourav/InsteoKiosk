@@ -1,12 +1,11 @@
 /**
  * File=>server.js
+ * Date Modified = 1/8/18
  * functions
  * =>runs the application on the host machine
  * =>Includes all the imports of the dependencies 
  */
-//specifying port number
 const PORT = 3000;
-//all require for npm dependencies
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -17,7 +16,7 @@ const request = require('request');
 const download = require('download');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-
+const checkUrlInterval = 5000;
 //To enable the body parser depenedecy to get form data
 app.use(bodyParser.urlencoded({
     extended: true
@@ -61,7 +60,7 @@ setInterval(function () {
             console.log("offline");
         }
     });
-}, 5000);
+}, checkUrlInterval);
 
 /**
  * function=>

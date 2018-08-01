@@ -1,5 +1,6 @@
 /**
  * File-routes.js
+ * Date Modified = 1/8/18
  * functions
  * =>holds the routings
  * =>provides api
@@ -153,8 +154,10 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         fs.writeFile(__dirname + configDetailsPath, conf, 'utf8', function (err) {
             if (err) {
                 res.end("error");
-            };
+            }
+            else{
+                res.end("success");
+            }
         });
-        res.end("success");
     });
 }

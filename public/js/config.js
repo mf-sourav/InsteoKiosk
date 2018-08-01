@@ -1,5 +1,6 @@
 /**
  * file-config.js
+ * Date Modified = 1/8/18
  * function
  * =>changes pin & 6 character unique url code
  * =>blocks user from entering code again after nth wrong attempts
@@ -9,7 +10,8 @@
 var restrictTimer = 0;
 var wrongAttempts = 0;
 var pinAllowed = true;
-
+const restrictTimerInterval = 1000;
+const redirectDelay =3000;
 $(document).ready(function () {
 	//initialize the modal
 	var modal = document.getElementById('id01');
@@ -59,7 +61,7 @@ $(document).ready(function () {
 			$('#pinError').hide();
 			localStorage.setItem('restrictTimer', 0);
 		}
-	}, 1000);
+	}, restrictTimerInterval);
 	//method is called whenever pin is submited
 	$('#submitPin').click(function () {
 		if (pinAllowed) {
@@ -99,10 +101,10 @@ $(document).ready(function () {
 			//if configuration successfully written
 			if (result == "success") {
 				$('#submitUrlMsg').html("configuration updated successfully redirecting to index");
-				//redirects to inde.html after 3 secs
+				//redirects to index.html after 3 secs
 				setTimeout(function () {
 					window.location = "http://127.0.0.1:3000/index";
-				}, 3000);
+				}, redirectDelay);
 			} else {
 				//if fails show error
 				$('#submitUrlMsg').html("configuration update failed");
