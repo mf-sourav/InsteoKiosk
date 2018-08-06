@@ -11,27 +11,10 @@
 </head>
 
 <body>
-    <form class="modal-content animate">
-        <div class="imgcontainer">
-            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-        </div>
-
-        <div class="container">
-            <label for="uname"><b>Old PIN</b></label>
-            <input id="modalOldPin" type="text" placeholder="Enter Pin" name="uname" required>
-
-            <label for="psw"><b>New PIN</b></label>
-            <input id="modalNewPin" type="password" placeholder="Enter Pin" name="psw" required>
-
-            <button id="modalButton" type="button">change pin</button>
-            <span id="modalMsg" class="pure-form-message-inline" style="color:green"></span>
-        </div>
-    </form>
     <span class="loader"><span class="loader-inner"></span></span>
     <div class="videoContainer">
         <video id="videoarea" onended="next(this)" controls="controls" src="" frameborder="0" allowfullscreen autoplay muted></video>
     </div>
-    <script src="config.js"></script>
 </body>
 
 </html>
