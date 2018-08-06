@@ -11,13 +11,17 @@ const app = express();
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const parseString = require('xml2js').parseString;
 const request = require('request');
 const download = require('download');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const checkUrlInterval = 5000;
 const urlResponseTypePath = 'server/data/type.txt';
+const Feed = require('rss-to-json');
+const jsonfile = require('jsonfile');
+//test urls
+const htmlUrl = 'http://screen.insteo.com/fpojdf';
+const xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
 //To enable the body parser depenedecy to get form data
 app.use(bodyParser.urlencoded({
     extended: true
@@ -46,12 +50,11 @@ require('./server/routes.js')(app, path, fs, download, urlArray, getFileName);
  * =>stores the response type in type.txt
  */
 setInterval(function () {
-    let htmlUrl = 'http://screen.insteo.com/fpojdf';
-    let xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
-    request(htmlUrl, function (error, response, body) {
+    request(xmlUrl, function (error, response, body) {
         try {
             if (body.indexOf('<?xml version=') !== -1) {
                 let responsetype = fs.writeFileSync(urlResponseTypePath, 'XML', 'utf8');
+                saveRssFeed();
             } else {
                 let responsetype = fs.writeFileSync(urlResponseTypePath, 'HTML', 'utf8');
             }
@@ -68,16 +71,53 @@ setInterval(function () {
  * forks child processes for handling http request
  */
 //checks if it is a master process
-if (cluster.isMaster) {
-    // Fork workers.
-    // creates number of workers depending on cpu count
-    for (var i = 0; i < numCPUs; i++) {
-        cluster.fork();
-    }
-} else {
-    // if cluster is worker then it will listern to port
-    //appends listner at specified port
-    app.listen(PORT, () => {
-        console.log(`Server started on port:${PORT}`);
+// if (cluster.isMaster) {
+//     // Fork workers.
+//     // creates number of workers depending on cpu count
+//     for (var i = 0; i < numCPUs; i++) {
+//         cluster.fork();
+//     }
+// } else {
+//     // if cluster is worker then it will listern to port
+//     //appends listner at specified port
+//     app.listen(PORT, () => {
+//         console.log(`Server started on port:${PORT}`);
+//     });
+// }
+
+/**
+ * @name saveRssFeed 
+ * @return void
+ * function
+ * => converts rss feeds from xml to Json
+ * => writes Json data to rss.json file
+ * => reads Json data & extracts media array
+ */
+function saveRssFeed() {
+    Feed.load(xmlUrl, function (err, rss) {
+        let rssWrite = fs.writeFileSync(__dirname + '/rss.json', JSON.stringify(rss), 'utf8');
+    });
+    jsonfile.readFile('rss.json', function (err, obj) {
+        if (obj != undefined)
+            pushIntoVideoList(obj.items);
     });
 }
+
+/**
+ * @name pushIntoVideoList 
+ * @param [] of objects
+ * @return void
+ * function
+ * => converts rss feeds from xml to Json
+ * => writes Json data to rss.json file
+ * => reads Json data & extracts media array
+ */
+function pushIntoVideoList(items) {
+    items.forEach(element => {
+        console.log(element.media.content[0].url);
+    });
+}
+
+app.listen(PORT, () => {
+    console.log(`Server started on port:${PORT}`);
+})

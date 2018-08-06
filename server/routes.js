@@ -60,9 +60,9 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         for (let i = 0; i < urlArrayLength; i++) {
             //checks if media file is present
             try {
-                if (!fs.existsSync(__dirname + '/media/' + getFileName(urlArray[i]))) {
+                if (!fs.existsSync(__dirname + 'server/media/' + getFileName(urlArray[i]))) {
                     //if not present download the content synchronously
-                    download(urlArray[i], 'media').then(() => {
+                    download(urlArray[i], 'server/media').then(() => {
                         //after downloading write files to media_list file
                         fs.appendFileSync(__dirname + mediaListPath, getFileName(urlArray[i]) + "\r\n");
                     });
