@@ -11,7 +11,7 @@ var restrictTimer = 0;
 var wrongAttempts = 0;
 var pinAllowed = true;
 const restrictTimerInterval = 1000;
-const redirectDelay =3000;
+const redirectDelay = 3000;
 $(document).ready(function () {
 	//initialize the modal
 	var modal = document.getElementById('id01');
@@ -39,7 +39,7 @@ $(document).ready(function () {
 	} else {
 		pinAllowed = localStorage.getItem('pinAllowed');
 	}
-	//get pin stored in config.txt
+	//get pin stored in config file
 	$.get("http://127.0.0.1:3000/getPin", function (data, status) {
 		pin = data;
 	});
@@ -58,7 +58,6 @@ $(document).ready(function () {
 			$('#submitPin').prop('disabled', false);
 			$('#oldPin').prop('disabled', false);
 			$('#pinWarning').html("");
-			$('#pinError').hide();
 			localStorage.setItem('restrictTimer', 0);
 		}
 	}, restrictTimerInterval);
@@ -74,17 +73,17 @@ $(document).ready(function () {
 				//entered wrong pin increase wrong attempts count
 				//reset fields & show warning
 				resetFields();
-				$('#pinError').show();
-				$('#pinError').html("Please enter correct pin");
+				errorPrompt();
 				wrongAttempts++;
 			}
 			if (wrongAttempts == 4) {
 				//entered wrong pin 5 times disabled the form fields for 5 secs
-				disableFormInputs("you can try again after 30 secs",5);
+				disableFormInputs("you can try again after 30 secs", 5);
 			}
 			if (wrongAttempts == 9) {
 				//entered wrong pin 10 times disabled the form fields for 30 secs
-				disableFormInputs("you can try again after 1hr",30);
+				disableFormInputs("you can try again after 1hr", 30);
+				wrongAttempts = 0;
 			}
 		}
 	});
@@ -160,6 +159,14 @@ $(document).ready(function () {
 		localStorage.setItem('restrictTimer', time);
 		localStorage.setItem('pinAllowed', false);
 		restrictTimer = time;
+	}
+	//for error prompt when wrong pin entered
+	function errorPrompt() {
+		$('#pinError').show();
+		$('#pinError').html("Please enter correct pin");
+		setTimeout(() => {
+			$('#pinError').hide();
+		}, 3000);
 	}
 	//when clicked on any region outside modal it closes the modal 
 	window.onclick = function (event) {
