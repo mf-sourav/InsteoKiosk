@@ -1,2 +1,0 @@
-URL=fpojdf
-PIN=55551

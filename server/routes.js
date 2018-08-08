@@ -15,7 +15,8 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
 
     //path variables
     const mediaListPath = "/data/media_list.txt";
-    const configDetailsPath = "/data/config_details.txt";
+    const configDetailsPath = "/data/config_details.json";
+    const publicFolderPath = '../public';
     /**
      * @Route
      * @name /index
@@ -26,7 +27,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      */
     app.get('/index', function (req, res) {
         res.sendFile('index.html', {
-            root: path.join(__dirname, '../public')
+            root: path.join(__dirname, publicFolderPath)
         });
     });
 
@@ -40,7 +41,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      */
     app.get('/config', function (req, res) {
         res.sendFile('config.html', {
-            root: path.join(__dirname, '../public')
+            root: path.join(__dirname, publicFolderPath)
         });
     });
 
@@ -72,7 +73,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
             }
         }
         res.sendFile('player.html', {
-            root: path.join(__dirname, '../public')
+            root: path.join(__dirname, publicFolderPath)
         });
     });
 
@@ -103,8 +104,8 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
             if (err) {
                 res.end(err);
             }
-            var code = (data.split('URL=')[1]).split('PIN=')[0].trim();
-            res.end(code);
+            var obj = JSON.parse(data);
+            res.end(obj.URL);
         });
     });
 
@@ -134,12 +135,14 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the 5 digit pincode from config_details.txt
      */
     app.get('/getPin', function (req, res) {
-        try {
-            var pin = fs.readFileSync(__dirname + configDetailsPath, 'utf8').split('PIN=')[1].trim();
-            res.end(pin);
-        } catch (error) {
-            res.end(error);
-        }
+        fs.readFile(__dirname + configDetailsPath, 'utf8', function (err, data) {
+            if (err) {
+                res.end(err);
+            }
+            console.log(data);
+            var obj = JSON.parse(data);
+            res.end(pinDecode(obj.PIN));
+        });
     });
     /**
      * @Route/api call
@@ -147,17 +150,27 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * @method POST
      * @return string
      * function
-     * =>overwrites config_details.html with new Pin & url code
+     * =>overwrites config_details.json with new Pin & url code
      */
     app.post('/setPinPassword', function (req, res) {
-        var conf = 'URL=' + req.body.url + "\nPIN=" + req.body.pin;
-        fs.writeFile(__dirname + configDetailsPath, conf, 'utf8', function (err) {
+        var conf = {
+            URL: req.body.url,
+            PIN: pinEncode(req.body.pin)
+        };
+        fs.writeFile(__dirname + configDetailsPath, JSON.stringify(conf), 'utf8', function (err) {
             if (err) {
                 res.end("error");
-            }
-            else{
+            } else {
                 res.end("success");
             }
         });
     });
+
+    function pinEncode(pin){
+        return Buffer.from(pin).toString('base64');
+    }
+
+    function pinDecode(pin){
+        return Buffer.from(pin, 'base64').toString('ascii');
+    }
 }
