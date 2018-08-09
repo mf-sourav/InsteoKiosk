@@ -1,20 +1,17 @@
 /**
  * file-config.js
- * Date Modified = 1/8/18
+ * Date Modified = 9/8/18
  * function
  * =>changes pin & 6 character unique url code
  * =>blocks user from entering code again after nth wrong attempts
  * =>controls the ctrl+A popup modal for changing the pin
  */
-//init 
 var restrictTimer = 0;
 var wrongAttempts = 0;
 var pinAllowed = true;
 const restrictTimerInterval = 1000;
 const redirectDelay = 3000;
 $(document).ready(function () {
-	//initialize the modal
-	var modal = document.getElementById('id01');
 	//hide change pin & code form
 	$('#configForm').hide();
 	$('#pinError').hide();
@@ -110,45 +107,7 @@ $(document).ready(function () {
 			}
 		});
 	});
-	//checks if ctrl + A is pressed if so then it shows the modal
-	$(document).keydown(function (event) {
-		if (event.ctrlKey == true && event.keyCode == 65) {
-			event.preventDefault();
-			document.getElementById('id01').style.display = 'block';
-			document.getElementById('id01').style.width = '100%';
-		}
-	});
-	//function executes when modal submit button is clicked
-	$('#modalButton').click(function () {
-		if ($('#modalOldPin').val() == pin && $('#modalNewPin').val() != "") {
-			//ajax call to get present 6 char url code
-			$.get("http://127.0.0.1:3000/getCode", function (data, status) {
-				let oldUrl = data;
-				//ajax call to set pin & url of the user
-				$.post("/setPinPassword", {
-					url: oldUrl,
-					pin: $('#modalNewPin').val()
-				}, function (result) {
-					if (result == "success") {
-						$('#modalMsg').html("Pin changed successfully").css("color", "green");
-						resetFields();
-					} else {
-						$('#modalMsg').html("Error while changing pin").css("color", "red");
-						resetFields();
-					}
-				});
-			});
-		} else {
-			$('#modalMsg').html("please enter correct pin").css("color", "red");
-			resetFields();
-		}
-	});
-	//after clicking submit clears the input fields
-	function resetFields() {
-		$('#oldPin').val('');
-		$('#modalOldPin').val('');
-		$('#modalNewPin').val('');
-	}
+
 	//after n no of attempts disables input fields for specified time
 	function disableFormInputs(msg, time) {
 		pinAllowed = false;
@@ -168,11 +127,4 @@ $(document).ready(function () {
 			$('#pinError').hide();
 		}, 3000);
 	}
-	//when clicked on any region outside modal it closes the modal 
-	window.onclick = function (event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	}
-
 });

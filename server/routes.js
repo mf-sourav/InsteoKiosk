@@ -1,6 +1,6 @@
 /**
  * File-routes.js
- * Date Modified = 1/8/18
+ * Date Modified = 8/8/18
  * functions
  * =>holds the routings
  * =>provides api
@@ -87,6 +87,9 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      */
     app.get('/type', function (req, res) {
         fs.readFile(__dirname + "/data/type.txt", 'utf8', function (err, data) {
+            if(err){
+                res.end(err);
+            }
             res.end(data);
         });
     });

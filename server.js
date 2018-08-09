@@ -1,6 +1,6 @@
 /**
  * File=>server.js
- * Date Modified = 1/8/18
+ * Date Modified = 8/8/18
  * functions
  * =>runs the application on the host machine
  * =>Includes all the imports of the dependencies 
@@ -13,12 +13,8 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const request = require('request');
 const download = require('download');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
 const checkUrlInterval = 5000;
 const urlResponseTypePath = 'server/data/type.txt';
-const Feed = require('rss-to-json');
-const jsonfile = require('jsonfile');
 //test urls
 const htmlUrl = 'http://screen.insteo.com/fpojdf';
 const xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';

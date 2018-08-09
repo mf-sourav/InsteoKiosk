@@ -18,18 +18,19 @@
 </head>
 
 <body>
-    <div id="id01" class="modal">
-
+    <div id="pinModal" class="modal">
         <form class="modal-content animate" action="/action_page.php">
             <div class="imgcontainer">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <span onclick="document.getElementById('pinModal').style.display='none'" class="close" title="Close Modal">&times;</span>
             </div>
-
             <div class="container">
-                <label for="uname"><b>Old PIN</b></label>
+                <label for="uname">
+                    <b>Old PIN</b>
+                </label>
                 <input id="modalOldPin" type="text" placeholder="Enter Pin" name="uname" required>
-
-                <label for="psw"><b>New PIN</b></label>
+                <label for="psw">
+                    <b>New PIN</b>
+                </label>
                 <input id="modalNewPin" type="password" placeholder="Enter Pin" name="psw" required>
 
                 <button id="modalButton" type="button">change pin</button>
@@ -38,24 +39,7 @@
         </form>
     </div>
     <iframe id="global_iframe" src="" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
-    <script src="config.js"></script>
+    <script src="iframe.js"></script>
+    <script src="modal.js"></script>
 </body>
-<script>
-    $(document).ready(function () {
-        var siteUrl = 'http://screen.insteo.com/';
-
-        $.get("http://127.0.0.1:3000/getCode", function (data, status) {
-            $('#global_iframe').attr('src', siteUrl + data);
-        });
-        setInterval(function () {
-            $.get("http://127.0.0.1:3000/type", function (data, status) {
-                console.log(data);
-                if (data.trim() == 'XML') {
-                    window.location.href = "http://127.0.0.1:3000/player";
-                }
-            });
-        }, 6000);
-    });
-</script>
-
 </html>
