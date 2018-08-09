@@ -99,7 +99,7 @@ $(document).ready(function () {
 				$('#submitUrlMsg').html("configuration updated successfully redirecting to index");
 				//redirects to index.html after 3 secs
 				setTimeout(function () {
-					window.location = "http://127.0.0.1:3000/index";
+					window.location = "http://127.0.0.1:3000/splash";
 				}, redirectDelay);
 			} else {
 				//if fails show error

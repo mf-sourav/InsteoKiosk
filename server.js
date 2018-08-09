@@ -31,6 +31,7 @@ app.use(express.static('public/js'));
 app.use(express.static('server/data'));
 app.use(express.static('server/media'));
 app.use(express.static('public/styles'));
+app.use(express.static('public/assets'));
 
 //extract filename from url to be downloaded
 var getFileName = path => path.match(/[-_\w]+[.][\w]+$/i)[0];

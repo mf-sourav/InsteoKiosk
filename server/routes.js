@@ -19,6 +19,20 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
     const publicFolderPath = '../public';
     /**
      * @Route
+     * @name /splash
+     * @method GET
+     * @return file
+     * function
+     * => serves the splash page
+     * => checks for internet connection
+     */
+    app.get('/splash', function (req, res) {
+        res.sendFile('splash.html', {
+            root: path.join(__dirname, publicFolderPath)
+        });
+    });
+    /**
+     * @Route
      * @name /index
      * @method GET
      * @return file
@@ -87,7 +101,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      */
     app.get('/type', function (req, res) {
         fs.readFile(__dirname + "/data/type.txt", 'utf8', function (err, data) {
-            if(err){
+            if (err) {
                 res.end(err);
             }
             res.end(data);
@@ -142,7 +156,6 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
             if (err) {
                 res.end(err);
             }
-            console.log(data);
             var obj = JSON.parse(data);
             res.end(pinDecode(obj.PIN));
         });
@@ -169,11 +182,11 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
         });
     });
 
-    function pinEncode(pin){
+    function pinEncode(pin) {
         return Buffer.from(pin).toString('base64');
     }
 
-    function pinDecode(pin){
+    function pinDecode(pin) {
         return Buffer.from(pin, 'base64').toString('ascii');
     }
 }
