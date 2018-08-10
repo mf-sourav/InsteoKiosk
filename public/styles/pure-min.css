@@ -941,7 +941,10 @@ a.pure-button-selected {
 .pure-menu-horizontal {
     background-color: #004d82;
     width: 100%;
-    white-space: nowrap
+    white-space: nowrap;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 11px 10px -6px #777;
 }
 
 .pure-menu-horizontal .pure-menu-list {
