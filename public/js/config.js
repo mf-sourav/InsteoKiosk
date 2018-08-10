@@ -60,17 +60,21 @@ $(document).ready(function () {
 	}, restrictTimerInterval);
 	//method is called whenever pin is submited
 	$('#submitPin').click(function () {
+		let enteredPin = $('#oldPin').val();
 		if (pinAllowed) {
+			if(enteredPin.length < 5){
+				errorPrompt("pin must be of 5 digits");
+				return
+			}
 			//entered correct pin
-			if ($('#oldPin').val() == pin) {
+			if (enteredPin == pin) {
 				//hides pin entry form & shows configuration form
 				$('#configForm').show();
 				$('#pinVerificationForm').hide();
 			} else {
 				//entered wrong pin increase wrong attempts count
 				//reset fields & show warning
-				resetFields();
-				errorPrompt();
+				errorPrompt("Please enter correct pin");
 				wrongAttempts++;
 			}
 			if (wrongAttempts == 4) {
@@ -120,9 +124,10 @@ $(document).ready(function () {
 		restrictTimer = time;
 	}
 	//for error prompt when wrong pin entered
-	function errorPrompt() {
+	function errorPrompt(msg) {
+		$('#oldPin').val('');
 		$('#pinError').show();
-		$('#pinError').html("Please enter correct pin");
+		$('#pinError').html(msg);
 		setTimeout(() => {
 			$('#pinError').hide();
 		}, 3000);

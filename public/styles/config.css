@@ -50,6 +50,13 @@ The content `<div>` is where all your content goes.
     max-width: 800px;
     margin-bottom: 50px;
     line-height: 1.6em;
+    margin-top: 7%;
+}
+
+.logo-img {
+    float: left;
+    height: 11%;
+    width: 11%
 }
 
 .header {
@@ -235,7 +242,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         padding-right: 2em;
     }
     #layout {
-        padding-left: 150px;
+        /* padding-left: 150px; */
         /* left col width "#menu" */
         left: 0;
     }
