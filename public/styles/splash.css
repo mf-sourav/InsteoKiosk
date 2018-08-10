@@ -1,5 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 .main {
@@ -9,7 +10,7 @@ body {
     bottom: 0;
     left: 29%;
     right: 0;
-    width: 550px;
+    width: auto;
     padding: 0px 0px 0px 0px;
 }
 
