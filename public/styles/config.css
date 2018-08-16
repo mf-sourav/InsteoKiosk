@@ -46,12 +46,11 @@ The content `<div>` is where all your content goes.
 
 .content {
     margin: 0 auto;
-    max-width: 1200px;
-    margin-bottom: 50px;
-    line-height: 0.6em;
-    margin-top: 7em;
+    max-width: 1350px;
+    line-height: 0.8em;
+    margin-top: 10em;
     font-size: 1.4em;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .logo-img {
