@@ -25,13 +25,14 @@ table {
 }
 
 html {
-    font-family: sans-serif;
+    font-family: 'Roboto';
+    font-size: 100%;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%
 }
 
 body {
-    margin: 0
+    margin: 0;
 }
 
 article,
@@ -939,7 +940,7 @@ a.pure-button-selected {
 }
 
 .pure-menu-horizontal {
-    background-color: #004d82;
+    background-color: #06386d;
     width: 100%;
     white-space: nowrap;
     -webkit-box-shadow: 0 10px 6px -6px #777;
@@ -957,7 +958,7 @@ a.pure-button-selected {
     display: inline-block;
     zoom: 1;
     vertical-align: middle;
-    font-size: 4em;
+    font-size: 6em;
     color:white;
     margin-left: -8%;
 }
