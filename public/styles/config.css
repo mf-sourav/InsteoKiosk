@@ -46,17 +46,52 @@ The content `<div>` is where all your content goes.
 
 .content {
     margin: 0 auto;
-    max-width: 1350px;
-    line-height: 0.8em;
-    margin-top: 10em;
-    font-size: 1.4em;
+    max-width: 1750px;
+    line-height: 1.8em;
+    margin-top: 7em;
     font-size: 1.5em;
+}
+
+#pinVerificationForm {
+    margin-left: 9em;
+    font-size: 1.2em;
+}
+
+#configForm {
+    margin-left: 9em;
+    font-size: 1.2em;
 }
 
 .logo-img {
     float: left;
-    height: 11%;
-    width: 11%
+    width: 150px
+}
+
+.input-group {
+    display: -webkit-box;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+}
+
+.bar-input {
+    font-size: 1.2em;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 21em;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+
+.bar-input-label {
+    font-size: 1.2em;
+    color:#004D84
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 .header {
@@ -274,8 +309,8 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
 /* Full-width input fields */
 
-input[type=text],
-input[type=password] {
+.pure-input[type=text],
+.pure-input[type=password] {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;

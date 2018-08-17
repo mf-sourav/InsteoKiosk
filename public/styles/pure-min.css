@@ -91,7 +91,8 @@ h1 {
     padding-top: 1em;
     font-size: 2em;
     margin: .67em 0;
-    padding-left: 20%;
+    color: #000;
+    font-weight: lighter;
 }
 
 mark {
@@ -220,7 +221,7 @@ input[type=search]::-webkit-search-decoration {
 }
 
 fieldset {
-    border: 1px solid silver;
+    border: none;
     margin: 0 2px;
     padding: .35em .625em .75em
 }
@@ -541,7 +542,7 @@ legend {
 .pure-button-selected,
 a.pure-button-primary,
 a.pure-button-selected {
-    background-color: #0078e7;
+    background-color: #004882;
     color: #fff
 }
 
@@ -940,12 +941,10 @@ a.pure-button-selected {
 }
 
 .pure-menu-horizontal {
-    background-color: #06386d;
+    background-color: #08386E;
     width: 100%;
     white-space: nowrap;
-    -webkit-box-shadow: 0 10px 6px -6px #777;
-    -moz-box-shadow: 0 10px 6px -6px #777;
-    box-shadow: 0 11px 10px -6px #777;
+    box-shadow: 0 17px 20px -6px #777;
 }
 
 .pure-menu-horizontal .pure-menu-list {
@@ -958,9 +957,9 @@ a.pure-button-selected {
     display: inline-block;
     zoom: 1;
     vertical-align: middle;
-    font-size: 6em;
-    color:white;
-    margin-left: -8%;
+    font-size: 4.5em;
+    color: white;
+    margin-left: -50%;
 }
 
 .pure-menu-item .pure-menu-item {
@@ -1044,7 +1043,6 @@ a.pure-button-selected {
 }
 
 .pure-menu-heading {
-    text-transform: uppercase;
     color: #565d64
 }
 

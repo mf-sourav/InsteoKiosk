@@ -15,20 +15,23 @@
     <div id="layout">
         <div id="main">
             <div class="header">
-                <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+                <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed" style="height: 150px;">
                     <a class="pure-menu-heading" href="">Insteo Display</a>
                     <img class="logo-img" src="Logo.png">
                 </div>
             </div>
 
             <div class="content">
-                <form class="pure-form pure-form-aligned" id="pinVerificationForm">
-                    <h1>Please enter 5 digit PIN</h1>
+
+                <form id="pinVerificationForm">
+                    <h1>Insteo Display PIN Verification</h1>
                     <fieldset>
-                        <div class="pure-control-group">
-                            <label for="password">PIN</label>
-                            <input id="oldPin" type="password" placeholder="*****" maxlength="5">
-                            <span class="pure-form-message-inline">*enter pin default "55551"</span>
+                        <div>
+                            <label class="bar-input-label" for="password">Enter 5 Digit PIN.</label>
+                            <div class="input-group">
+                                <input class="bar-input" id="oldPin" type="password" maxlength="5" required>
+                                <span class="pure-form-message-inline">*enter pin default "55551".</span>
+                            </div>
                         </div>
 
                         <div class="pure-controls">
@@ -38,19 +41,23 @@
                         </div>
                     </fieldset>
                 </form>
-                <form class="pure-form pure-form-aligned" id="configForm">
-                    <h1>Please enter 6 - 10 characters screen ID</h1>
+                <form id="configForm">
+                    <h1>Insteo Display Screen ID</h1>
                     <fieldset>
-                        <div class="pure-control-group">
-                            <label for="name">screen ID</label>
-                            <input id="newUrl" type="text" placeholder="abcdef" maxlength="10">
-                            <span class="pure-form-message-inline">*This is a required field. ex("abcdef")</span>
+                        <div>
+                            <label class="bar-input-label" for="name">Enter your 6-10 character screen ID here.</label>
+                            <div class="input-group">
+                                <input class="bar-input" id="newUrl" type="text" placeholder="abcdef" maxlength="10">
+                                <span class="pure-form-message-inline">*This is a required field. ex(&nbsp;<q>screen.insteo.com/<b><u>abcdef</u></b>&nbsp;</q>).</span>
+                            </div>
                         </div>
 
-                        <div class="pure-control-group">
-                            <label for="password">New PIN</label>
-                            <input id="newPin" type="password" placeholder="PIN" maxlength="5">
-                            <span class="pure-form-message-inline">can be left blank if you don't want to change the pin.</span>
+                        <div>
+                            <label class="bar-input-label" for="password">Enter new PIN.</label>
+                            <div class="input-group">
+                                <input class="bar-input" id="newPin" type="password" placeholder="PIN" maxlength="5">
+                                <span class="pure-form-message-inline">can be left blank if you don't want to change the pin.</span>
+                            </div>
                         </div>
 
                         <div class="pure-controls">

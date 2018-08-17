@@ -62,7 +62,7 @@ $(document).ready(function () {
 	$('#submitPin').click(function () {
 		let enteredPin = $('#oldPin').val();
 		if (pinAllowed) {
-			if(enteredPin.length < 5){
+			if (enteredPin.length < 5) {
 				errorPrompt("pin must be of 5 digits");
 				return
 			}
@@ -90,6 +90,9 @@ $(document).ready(function () {
 	});
 	//method is called when user submits configuration form
 	$('#submitUrl').click(function () {
+		if (!isScreenIdValid()) {
+			return;
+		}
 		if ($('#newPin').val() == "") {
 			$('#newPin').val(pin);
 		}
@@ -100,7 +103,7 @@ $(document).ready(function () {
 		}, function (result) {
 			//if configuration successfully written
 			if (result == "success") {
-				$('#submitUrlMsg').html("configuration updated successfully redirecting to index");
+				$('#submitUrlMsg').html("configuration updated successfully redirecting to index").css('color', 'green');
 				//redirects to index.html after 3 secs
 				setTimeout(function () {
 					window.location = "http://127.0.0.1:3000/splash";
@@ -131,5 +134,15 @@ $(document).ready(function () {
 		setTimeout(() => {
 			$('#pinError').hide();
 		}, 3000);
+	}
+	//for checking valid screen ID
+	function isScreenIdValid() {
+		let screenId = $('#newUrl').val();
+		if (screenId.length < 6 || screenId.length > 10) {
+			$('#submitUrlMsg').html("Screen Id should have 6 - 10 characters").css('color', 'red');
+			return false;
+		} else {
+			return true;
+		}
 	}
 });
