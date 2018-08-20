@@ -44,12 +44,24 @@ This is the parent `<div>` that contains the menu and the content area.
 The content `<div>` is where all your content goes.
 */
 
-.content {
-    margin: 0 auto;
-    max-width: 1750px;
-    line-height: 1.8em;
-    margin-top: 7em;
-    font-size: 1.5em;
+@media (min-width: 1900px) {
+    .content {
+        margin: 0 auto;
+        max-width: 1750px;
+        line-height: 1.8em;
+        margin-top: 7em;
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 1500px) {
+    .content {
+        margin: 0 auto;
+        max-width: 1350px;
+        line-height: 1.8em;
+        margin-top: 9em;
+        font-size: 1em;
+    }
 }
 
 #pinVerificationForm {
@@ -84,7 +96,7 @@ The content `<div>` is where all your content goes.
 
 .bar-input-label {
     font-size: 1.2em;
-    color:#004D84
+    color: #004D84
 }
 
 input:focus,
@@ -269,30 +281,6 @@ small screens.
 /*
 Hides the menu at `48em`, but modify this based on your app's needs.
 */
-
-@media (min-width: 48em) {
-    .header,
-    .content {
-        padding-left: 2em;
-        padding-right: 2em;
-    }
-    #layout {
-        /* padding-left: 150px; */
-        /* left col width "#menu" */
-        left: 0;
-    }
-    #menu {
-        left: 150px;
-    }
-    .menu-link {
-        position: fixed;
-        left: 150px;
-        display: none;
-    }
-    #layout.active .menu-link {
-        left: 150px;
-    }
-}
 
 @media (max-width: 48em) {
     /* Only apply this when the window is small. Otherwise, the following

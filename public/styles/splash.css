@@ -3,74 +3,138 @@ body {
     overflow: hidden;
 }
 
-.main {
-    height: 300px;
-    position: absolute;
-    top: 17em;
-    bottom: 0;
-    left: 27em;
-    right: 0;
-    width: auto;
-    padding: 0px 0px 0px 0px;
+@media (min-width: 1900px) {
+    .main {
+        height: 300px;
+        position: absolute;
+        top: 17em;
+        bottom: 0;
+        left: 27em;
+        right: 0;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+    }
+    .main img {
+        float: left;
+        width: 300px;
+        height: 300px;
+    }
+    .main h1 {
+        font-size: 7em;
+        position: relative;
+        left: 12px;
+        top: 0.1em;
+        font-weight: lighter;
+    }
+    .info {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 1%;
+        left: 31em;
+        padding: 0px 0px 0px 0px;
+        font-size: 1.5em;
+    }
+    .connectionError {
+        color: #d31212;
+        height: auto;
+        position: absolute;
+        bottom: 9.5em;
+        left: 19em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+        font-size: 2em;
+    }
+    .loadingMsg {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 16em;
+        left: 23.5em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+        font-size: 2em;
+    }
+    .preloader {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 20em;
+        left: 58em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+    }
 }
 
-.main img {
-    float: left;
-    width: 300px;
-    height: 300px;
+@media (max-width: 1000px) {
+    .main {
+        height: 300px;
+        position: absolute;
+        top: 17em;
+        bottom: 0;
+        left: 12em;
+        right: 0;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+    }
+    .main img {
+        float: left;
+        width: 300px;
+        height: 300px;
+    }
+    .main h1 {
+        font-size: 7em;
+        position: relative;
+        left: 12px;
+        top: 0.1em;
+        font-weight: lighter;
+    }
+    .info {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 1%;
+        left: 21em;
+        padding: 0px 0px 0px 0px;
+        font-size: 1.5em;
+    }
+    .connectionError {
+        color: #d31212;
+        height: auto;
+        position: absolute;
+        bottom: 9.5em;
+        left: 19em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+        font-size: 2em;
+    }
+    .loadingMsg {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 10.5em;
+        left: 16em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+        font-size: 2em;
+    }
+    .preloader {
+        color: #187ecc;
+        height: auto;
+        position: absolute;
+        bottom: 11em;
+        left: 45em;
+        width: auto;
+        padding: 0px 0px 0px 0px;
+    }
 }
 
-.main h1 {
-    font-size: 7em;
-    position: relative;
-    left: 12px;
-    top: 0.1em;
-    font-weight: lighter;
-}
-
-.info {
-    color: #187ecc;
-    height: auto;
-    position: absolute;
-    bottom: 1%;
-    left: 31em;
-    padding: 0px 0px 0px 0px;
-    font-size: 1.5em;
-}
-
-.connectionError{
-    color: #d31212;
-    height: auto;
-    position: absolute;
-    bottom: 9.5em;
-    left: 19em;
-    width: auto;
-    padding: 0px 0px 0px 0px;
-    font-size: 2em;
-}
-
-.loadingMsg{
-    color: #187ecc;
-    height: auto;
-    position: absolute;
-    bottom: 16em;
-    left: 23.5em;
-    width: auto;
-    padding: 0px 0px 0px 0px;
-    font-size: 2em;
-}
 /**
 * preloader
 */
-.preloader {
-    color: #187ecc;
-    height: auto;
-    position: absolute;
-    bottom: 20em;
-    left: 58em;
-    width: auto;
-    padding: 0px 0px 0px 0px;
-}
+
+
+
 .lds-roller {
     display: inline-block;
     position: relative;
