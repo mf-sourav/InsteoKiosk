@@ -11,12 +11,14 @@
  * @param {*variable that holds all links for downloading} urlArray 
  * @param {*function to parse filename from url} getFileName 
  */
-module.exports = function (app, path, fs, download, urlArray, getFileName) {
+module.exports = function (app, path, fs, download, urlArray, getFileName, crypto) {
 
     //path variables
     const mediaListPath = "/data/media_list.txt";
     const configDetailsPath = "/data/config_details.json";
-    const publicFolderPath = '../public';
+    const publicFolderPath = "../public";
+    var originalPin = "";
+
     /**
      * @Route
      * @name /splash
@@ -100,7 +102,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>returns the type of response that app is getting from the url(HTML/XML)
      */
     app.get('/type', function (req, res) {
-        fs.readFile(__dirname + "/data/type.txt", 'utf8', function (err, data) {
+        fs.readFile(__dirname + '/data/type.txt', 'utf8', function (err, data) {
             if (err) {
                 res.end(err);
             }
@@ -169,24 +171,66 @@ module.exports = function (app, path, fs, download, urlArray, getFileName) {
      * =>overwrites config_details.json with new Pin & url code
      */
     app.post('/setPinPassword', function (req, res) {
+        var newPin = '';
+        if (req.body.pin != '') {
+            newPin = pinCheck(req.body.pin);
+        } else {
+            newPin = originalPin;
+        }
         var conf = {
             URL: req.body.url,
-            PIN: pinEncode(req.body.pin)
+            PIN: newPin
         };
         fs.writeFile(__dirname + configDetailsPath, JSON.stringify(conf), 'utf8', function (err) {
             if (err) {
-                res.end("error");
+                res.end('error');
             } else {
-                res.end("success");
+                getOriginalPin();
+                res.end('success');
             }
         });
     });
-
-    function pinEncode(pin) {
-        return Buffer.from(pin).toString('base64');
+    /**
+     * @Route/api call
+     * @name /checkPin
+     * @method POST
+     * @return true/false
+     * function
+     * =>gets the hash of 5 digit PIN 
+     * =>compares it with user entered PIN hash
+     */
+    app.post('/checkPin', function (req, res) {
+        originalPin = getOriginalPin();
+        if (originalPin == pinCheck(req.body.PIN)) {
+            res.end('true');
+        } else {
+            res.end('false');
+        }
+    });
+    /**
+     * @name pinCheck
+     * @argument pin
+     * @return string
+     * function
+     * =>coverts any string to sha512 hash
+     */
+    function pinCheck(pin) {
+        console.log(pin);
+        return crypto.pbkdf2Sync(pin, 'salt', 1000, 64, `sha512`).toString(`hex`);
     }
-
-    function pinDecode(pin) {
-        return Buffer.from(pin, 'base64').toString('ascii');
+    /**
+     * @name getOriginalPin
+     * @return string
+     * function
+     * =>returns the 5 digit pincode hash from config_details.json
+     */
+    function getOriginalPin() {
+        try {
+            var data = fs.readFileSync(__dirname + configDetailsPath, 'utf8');
+            var obj = JSON.parse(data);
+            return obj.PIN;
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

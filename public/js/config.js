@@ -30,16 +30,14 @@ $(document).ready(function () {
 			$('#pinWarning').html("you can try again after sometime please wait...");
 		}
 	}
+
 	//for checking if user has entered wrong pin
 	if (localStorage.getItem('pinAllowed') == null) {
 		localStorage.setItem('pinAllowed', true);
 	} else {
 		pinAllowed = localStorage.getItem('pinAllowed');
 	}
-	//get pin stored in config file
-	$.get("http://127.0.0.1:3000/getPin", function (data, status) {
-		pin = data;
-	});
+
 	//checks every second restrict timer value
 	setInterval(function () {
 		//if restricttimer > 0 then decrement every single second
@@ -58,6 +56,7 @@ $(document).ready(function () {
 			localStorage.setItem('restrictTimer', 0);
 		}
 	}, restrictTimerInterval);
+
 	//method is called whenever pin is submited
 	$('#submitPin').click(function () {
 		let enteredPin = $('#oldPin').val();
@@ -67,34 +66,34 @@ $(document).ready(function () {
 				return
 			}
 			//entered correct pin
-			if (enteredPin == pin) {
-				//hides pin entry form & shows configuration form
-				$('#configForm').show();
-				$('#pinVerificationForm').hide();
-			} else {
-				//entered wrong pin increase wrong attempts count
-				//reset fields & show warning
-				errorPrompt("Please enter correct pin");
-				wrongAttempts++;
-			}
-			if (wrongAttempts == 4) {
-				//entered wrong pin 5 times disabled the form fields for 5 secs
-				disableFormInputs("you can try again after 30 secs", 5);
-			}
-			if (wrongAttempts == 9) {
-				//entered wrong pin 10 times disabled the form fields for 30 secs
-				disableFormInputs("you can try again after 1hr", 30);
-				wrongAttempts = 0;
-			}
+			pin=checkEnteredPin(enteredPin);
+			setTimeout(() => {
+				if (pin == "true") {
+					//hides pin entry form & shows configuration form
+					$('#configForm').show();
+					$('#pinVerificationForm').hide();
+				} else {
+					//entered wrong pin increase wrong attempts count
+					//reset fields & show warning
+					errorPrompt("Please enter correct pin");
+					wrongAttempts++;
+				}
+				if (wrongAttempts == 4) {
+					//entered wrong pin 5 times disabled the form fields for 5 secs
+					disableFormInputs("you can try again after 30 secs", 5);
+				}
+				if (wrongAttempts == 9) {
+					//entered wrong pin 10 times disabled the form fields for 30 secs
+					disableFormInputs("you can try again after 1hr", 30);
+					wrongAttempts = 0;
+				}
+			}, 100);
 		}
 	});
 	//method is called when user submits configuration form
 	$('#submitUrl').click(function () {
 		if (!isScreenIdValid()) {
 			return;
-		}
-		if ($('#newPin').val() == "") {
-			$('#newPin').val(pin);
 		}
 		//ajax post request to send 6 character url code & pin
 		$.post("/setPinPassword", {
@@ -126,6 +125,7 @@ $(document).ready(function () {
 		localStorage.setItem('pinAllowed', false);
 		restrictTimer = time;
 	}
+
 	//for error prompt when wrong pin entered
 	function errorPrompt(msg) {
 		$('#oldPin').val('');
@@ -135,6 +135,7 @@ $(document).ready(function () {
 			$('#pinError').hide();
 		}, 3000);
 	}
+
 	//for checking valid screen ID
 	function isScreenIdValid() {
 		let screenId = $('#newUrl').val();
@@ -144,5 +145,15 @@ $(document).ready(function () {
 		} else {
 			return true;
 		}
+	}
+
+	//sends the user entered pin to server for validation
+	//return true/false
+	function checkEnteredPin(args) {
+		$.post("/checkPin", {
+			PIN: args
+		}, function (result) {
+			pin = result;
+		});
 	}
 });

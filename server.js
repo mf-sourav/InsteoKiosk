@@ -13,6 +13,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const request = require('request');
 const download = require('download');
+const crypto = require('crypto');
 const checkUrlInterval = 5000;
 const urlResponseTypePath = 'server/data/type.txt';
 //test urls
@@ -37,7 +38,7 @@ app.use(express.static('public/assets'));
 var getFileName = path => path.match(/[-_\w]+[.][\w]+$/i)[0];
 
 //Includes routes.js in server.js module
-require('./server/routes.js')(app, path, fs, download, urlArray, getFileName);
+require('./server/routes.js')(app, path, fs, download, urlArray, getFileName,crypto);
 
 /**
  * @name checkUrlResponse 
