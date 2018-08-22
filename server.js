@@ -1,6 +1,6 @@
 /**
  * File=>server.js
- * Date Modified = 8/8/18
+ * Date Modified = 22/8/18
  * functions
  * =>runs the application on the host machine
  * =>Includes all the imports of the dependencies 
@@ -16,9 +16,9 @@ const download = require('download');
 const crypto = require('crypto');
 const checkUrlInterval = 5000;
 const urlResponseTypePath = 'server/data/type.txt';
-//test urls
-const htmlUrl = 'http://screen.insteo.com/fpojdf';
-const xmlUrl = 'http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30';
+const configFilePath = '/server/data/config.json';
+var config = {};
+
 //To enable the body parser depenedecy to get form data
 app.use(bodyParser.urlencoded({
     extended: true
@@ -37,8 +37,13 @@ app.use(express.static('public/assets'));
 //extract filename from url to be downloaded
 var getFileName = path => path.match(/[-_\w]+[.][\w]+$/i)[0];
 
+config = getConfig();
+
+//test urls
+const htmlUrl = config.htmlUrl;
+const xmlUrl = config.xmlUrl;
 //Includes routes.js in server.js module
-require('./server/routes.js')(app, path, fs, download, urlArray, getFileName,crypto);
+require('./server/routes.js')(app, path, fs, download, urlArray, getFileName, crypto,config);
 
 /**
  * @name checkUrlResponse 
@@ -61,6 +66,22 @@ setInterval(function () {
         }
     });
 }, checkUrlInterval);
+
+/**
+ * @name getConfig
+ * @return object
+ * function
+ * =>retrives all path config from config.json
+ */
+function getConfig() {
+    try {
+        var data = fs.readFileSync(__dirname + configFilePath, 'utf8');
+        var obj = JSON.parse(data);
+        return obj;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 app.listen(PORT, () => {
     console.log(`Server started on port:${PORT}`);

@@ -1,6 +1,6 @@
 /**
  * File-routes.js
- * Date Modified = 8/8/18
+ * Date Modified = 22/8/18
  * functions
  * =>holds the routings
  * =>provides api
@@ -11,16 +11,17 @@
  * @param {*variable that holds all links for downloading} urlArray 
  * @param {*function to parse filename from url} getFileName 
  */
-module.exports = function (app, path, fs, download, urlArray, getFileName, crypto) {
+module.exports = function (app, path, fs, download, urlArray, getFileName, crypto,config) {
 
     //path variables
-    const mediaListPath = "/data/media_list.txt";
-    const configDetailsPath = "/data/config_details.json";
-    const publicFolderPath = "../public";
+    const mediaListPath = config.mediaListPath;
+    const configDetailsPath = config.configDetailsPath;
+    const publicFolderPath = config.publicFolderPath;
+    const reponseTypePath = config.reponseTypePath;
     var originalPin = "";
 
     /**
-     * @Route
+     * @Route/api call
      * @name /splash
      * @method GET
      * @return file
@@ -34,7 +35,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
         });
     });
     /**
-     * @Route
+     * @Route/api call
      * @name /index
      * @method GET
      * @return file
@@ -48,7 +49,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
     });
 
     /**
-     * @Route
+     * @Route/api call
      * @name /config
      * @method GET
      * @return file
@@ -62,7 +63,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
     });
 
     /**
-     * @Route
+     * @Route/api call
      * @name /player
      * @method GET
      * @return file
@@ -102,7 +103,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
      * =>returns the type of response that app is getting from the url(HTML/XML)
      */
     app.get('/type', function (req, res) {
-        fs.readFile(__dirname + '/data/type.txt', 'utf8', function (err, data) {
+        fs.readFile(__dirname + reponseTypePath, 'utf8', function (err, data) {
             if (err) {
                 res.end(err);
             }
@@ -208,6 +209,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
         }
     });
     /**
+     * @function
      * @name pinCheck
      * @argument pin
      * @return string
@@ -219,6 +221,7 @@ module.exports = function (app, path, fs, download, urlArray, getFileName, crypt
         return crypto.pbkdf2Sync(pin, 'salt', 1000, 64, `sha512`).toString(`hex`);
     }
     /**
+     * @function
      * @name getOriginalPin
      * @return string
      * function

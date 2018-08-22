@@ -1,0 +1,9 @@
+{
+    "urlResponseTypePath": "server/data/type.txt",
+    "htmlUrl": "http://screen.insteo.com/fpojdf",
+    "xmlUrl": "http://api-dev.insteo.com/api/1/AppContent.aspx?type=MRSS&vfk=2d1b3840-c4ce-4f&k=0c37fdcc-7e4a-42&count=30",
+    "mediaListPath": "/data/media_list.txt",
+    "configDetailsPath": "/data/user_credential.json",
+    "publicFolderPath": "../public",
+    "reponseTypePath":"/data/type.txt"
+}
